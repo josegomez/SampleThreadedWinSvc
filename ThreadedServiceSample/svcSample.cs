@@ -36,11 +36,13 @@ namespace ThreadedServiceSample
         {
             while(running)
             {
-                using (EventLog eventLog = new EventLog("Application"))
+                string source = "DemoServiceAppLog";
+                string log = "Application";
+                if (!EventLog.SourceExists(source))
                 {
-                    eventLog.Source = "Application";
-                    eventLog.WriteEntry("Service Loop", EventLogEntryType.Information, 101, 1);
+                    EventLog.CreateEventSource(source, log);
                 }
+                EventLog.WriteEntry(source, "Demo Service Doing Work", EventLogEntryType.Information);
                 Thread.Sleep(30000);
             }
         }
